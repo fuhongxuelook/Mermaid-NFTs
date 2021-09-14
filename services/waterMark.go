@@ -12,8 +12,7 @@ import (
     "github.com/golang/freetype"
 )
 
-const ORIGIN = "static/img/origin/"
-const RESOURCE = "static/img/resource/"
+
 
  
 func GenerateWaterMark(tokenId string) {

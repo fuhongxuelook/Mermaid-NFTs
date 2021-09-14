@@ -3,7 +3,7 @@ package controllers
 import (
 	_ "fmt"
 	"log"
-	"path/filepath"
+	"path"
 	beego "github.com/beego/beego/v2/server/web"
 	service "MermaidNFT/services"
 )
@@ -17,19 +17,20 @@ func (c *DealImageController) Post() {
 	name := c.GetString("name")
 	tokenId := c.GetString("tokenId")
 	//beego.MaxMemory = 1<<22
-	f, _, err := c.GetFile("img")
+	f, h, err := c.GetFile("img")
     if err != nil {
         log.Fatal("getfile err ", err)
     }
     defer f.Close()
 
-    ext := filepath.Ext(f)
-    c.SaveToFile("img", ORIGIN + tokenId + ".jpeg") 
+    ext := path.Ext(h.Filename);
+
+    c.SaveToFile("img", ORIGIN + tokenId) 
 
     // 安全的文件移动文件
 	service.Copy(ORIGIN + tokenId, RESOURCE + tokenId)
 	
-	service.GenerageWm(tokenId, "")
+	service.GenerageWm(tokenId, ext)
 
 	c.Ctx.Output.Body([]byte(name));
 }
