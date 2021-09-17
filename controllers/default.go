@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"math/big"
 	beego "github.com/beego/beego/v2/server/web"
 )
 
@@ -9,7 +10,11 @@ type MainController struct {
 }
 
 func (c *MainController) Get() {
-	c.Data["Website"] = "beego.me"
-	c.Data["Email"] = "astaxie@gmail.com"
-	c.TplName = "index.tpl"
+	gasBiger := big.NewInt(10)
+	gas      := big.NewInt(2)
+
+	gas.Mul(gas, gasBiger)
+
+	c.Data["json"] = gas
+    c.ServeJSON()
 }

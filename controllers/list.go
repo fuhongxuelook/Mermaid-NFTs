@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	Model "MermaidNFT/models"
 	beego "github.com/beego/beego/v2/server/web"
 )
 
@@ -10,15 +11,15 @@ type ListController struct {
 
 const ONE_PAGE_NUM = 10
 
-func (c *ListController) Get() {
+func (c *ListController) Post() {
 	page, _ := c.GetInt("page")
 
 	start := (page - 1) * ONE_PAGE_NUM;
 
-	//list := getDataList(start, ONE_PAGE_NUM);
-	if start < 0 {
-		return;
-	}
+	res := Model.GetList(start, ONE_PAGE_NUM)
 
+
+	c.Data["json"] = &res
+    c.ServeJSON()
 
 }

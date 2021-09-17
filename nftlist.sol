@@ -19,7 +19,7 @@ contract Nft is Ownable, ERC721 {
         return baseUri;
     }
     
-    function Mint(address to) public onlyOwner {
+    function Mint(address to) public {
         _safeMint(to, totalSupply);
         totalSupply += 1;
     }
