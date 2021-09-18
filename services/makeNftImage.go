@@ -17,12 +17,5 @@ func GenerageWm(tokenId string, ext string) {
 	if err != nil{
 	    log.Fatal("err is %#v\n", err)
 	}
-
-	file :=  RESOURCE + tokenId;
-
-	Copy(file, file + ext)
-	
-	err = w.MarkFile(file + ext)
-
-	Copy(file + ext, file)
+	w.MarkFile(RESOURCE + tokenId + ext)
 }

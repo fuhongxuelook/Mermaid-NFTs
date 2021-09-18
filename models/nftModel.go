@@ -13,11 +13,22 @@ func (n *Nft) TableName() string {
 
 
 
-func GetList(page int, pageNum int) (list []User) {
+func GetList(skip int, take int) (list []Nft) {
 
 	o := orm.NewOrm()
 
-	num, err := o.Raw("SELECT id, address, created_at FROM user WHERE id >= ?", 1).QueryRows(&list)
+	qb, _ := orm.NewQueryBuilder("mysql")
+
+	qb.Select("id", "address", "name", "tokenId", "image", "status").
+		From("nft").
+		Where("status = 1").
+		OrderBy("id").Asc().
+    	Limit(take).Offset(skip)
+
+    sql := qb.String()
+
+
+	num, err := o.Raw(sql).QueryRows(&list)
 	if err == nil {
 	    fmt.Println("user nums: ", num)
 	}
@@ -32,20 +43,21 @@ func GetList(page int, pageNum int) (list []User) {
 // CreatedAt   time.Time `orm:"auto_now_add;type(datetime);description(创建时间)" json:"created_at"`
 
 
-func InsertNft(address string, tokenId string, name string ) {
+func InsertNft(address, tokenId, name, image string) {
     o := orm.NewOrm()
 
     nft := new(Nft)
     nft.Address = address
     nft.TokenId = tokenId
     nft.Name = name
+    nft.Image = image
     nft.Status = 1
 
     o.Insert(nft)
 
 }
 
-func GetNFTId(address string, tokenId string, name string ) {
+func GetNFTId(address, tokenId, name string ) {
     o := orm.NewOrm()
 
     nft := new(Nft)

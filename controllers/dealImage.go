@@ -6,6 +6,8 @@ import (
 	"path"
 	beego "github.com/beego/beego/v2/server/web"
 	service "MermaidNFT/services"
+	Model "MermaidNFT/models"
+
 )
 
 type DealImageController struct {
@@ -15,7 +17,8 @@ type DealImageController struct {
 
 func (c *DealImageController) Post() {
 	name := c.GetString("name")
-	tokenId := c.GetString("tokenId")
+	address := c.GetString("address")
+	tokenId := service.GetTokenId()
 	//beego.MaxMemory = 1<<22
 	f, h, err := c.GetFile("img")
     if err != nil {
@@ -25,12 +28,14 @@ func (c *DealImageController) Post() {
 
     ext := path.Ext(h.Filename);
 
-    c.SaveToFile("img", ORIGIN + tokenId) 
+    c.SaveToFile("img", ORIGIN + tokenId + ext) 
 
     // 安全的文件移动文件
-	service.Copy(ORIGIN + tokenId, RESOURCE + tokenId)
+	service.Copy(ORIGIN + tokenId + ext, RESOURCE + tokenId + ext)
 	
 	service.GenerageWm(tokenId, ext)
+
+	Model.InsertNft(address, tokenId, name, tokenId + ext)
 
 	c.Ctx.Output.Body([]byte(name));
 }

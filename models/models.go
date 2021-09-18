@@ -19,6 +19,7 @@ type Nft struct {
     Address     string `orm:"column(address);description(用户地址)" json:"address"`
     TokenId     string `orm:"column(tokenId);description(nft tokenId)" json:"tokenId"`
     Name        string `orm:"column(name);size(21);description(nft name)" json:"name"`
+    Image       string `orm:"column(image);size(100);description(image name)" json:"image"`
     Status      uint8  `orm:"column(status);description(NFT状态)" json:"status"`
     CreatedAt   time.Time `orm:"auto_now_add;type(datetime);description(创建时间)" json:"created_at"`
 }
