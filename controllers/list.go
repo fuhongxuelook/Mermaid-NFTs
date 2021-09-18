@@ -12,6 +12,7 @@ type ListController struct {
 
 const ONE_PAGE_NUM = 10
 
+// 127.0.0.1:8080/static/img/resource/26.jpeg
 func (c *ListController) Post() {
 	page, _ := c.GetInt("page")
 
