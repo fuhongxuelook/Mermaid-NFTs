@@ -9,14 +9,17 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
+    "github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/ethclient"
 	_ "github.com/ethereum/go-ethereum/common/hexutil"
     beego "github.com/beego/beego/v2/server/web"
+    nftContract "MermaidNFT/contracts" 
+    _ "github.com/beego/beego/v2/core/logs"
 )
 
 const myAddr = `0xD32e5c150b9Ca49506D6f04C5498B71e6fC9d027`
 
-func MintNFT(addr string) (string) {
+func MintNFT(addr string) (interface{}) {
 
     client, privateResource, _ := getEnv()
 
@@ -29,19 +32,48 @@ func MintNFT(addr string) (string) {
 
     return sendTransaction(client, privateResource, method, data)
 
+
+
 }
 
 /**
  * 获取当前tokenId
  * 
  */ 
-func GetTokenId() (string) {
+func GetTokenId() (interface{}) {
     
-    client, privateResource, _ := getEnv()
+    client, _, _ := getEnv()
 
-    method := "totalSupply()"
+    nftAddressStr, _ := beego.AppConfig.String("userNFT")
+    nftAddress := common.HexToAddress(nftAddressStr)
 
-    return sendTransaction(client, privateResource, method, make([]byte,0))
+
+    instance, _ := nftContract.NewContracts(nftAddress, client)
+
+
+    totalSupply, _ := instance.TotalSupply(&bind.CallOpts{})
+
+    
+    return totalSupply
+}
+
+
+func LoopSearchTx(hash string) (bool) {
+    
+    client, _, _ := getEnv()
+
+    txHash := common.HexToAddress(hash) 
+    _, isPending, err := client.TransactionByHash(context.Background(), txHash.Hash())
+    
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    return isPending;
+    // _, err = client.TransactionReceipt(context.Background(), tx.Hash())
+    // if err != nil {
+    //     log.Fatal(err)
+    // }
 }
 
 
@@ -181,8 +213,6 @@ func sendTransaction(
 
     return signedTx.Hash().Hex()
 }
-
-
 
 /**
  * @dev 获取接口ID,调用合约的方法，需要获取方法的id

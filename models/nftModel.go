@@ -42,8 +42,22 @@ func InsertNft(address string, tokenId string, name string ) {
     nft.Status = 1
 
     o.Insert(nft)
+
+}
+
+func GetNFTId(address string, tokenId string, name string ) {
+    o := orm.NewOrm()
+
+    nft := new(Nft)
+    nft.Address = address
+    nft.TokenId = tokenId
+    nft.Name = name
+    nft.Status = 1
+
+    o.Insert(nft)
     
 }
+
 
 
 
