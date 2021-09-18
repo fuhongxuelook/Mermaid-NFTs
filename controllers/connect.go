@@ -4,6 +4,7 @@ import (
 	_ "fmt"
 	beego "github.com/beego/beego/v2/server/web"
 	Model "MermaidNFT/models"
+	service "MermaidNFT/services"
 )
 
 type ConnectController struct {
@@ -12,11 +13,17 @@ type ConnectController struct {
 
 
 func (c *ConnectController) Post() {
-	
+
+
 	address := c.GetString("address")
-	tokenId := c.GetString("tokenId")
+
+	num := Model.AddressExist(address)
 	
-	Model.InsertUser(address, tokenId);
+	if num == 0 {
+		tokenId := service.GetTokenId()
+	
+		Model.InsertUser(address, tokenId);
+	}
 	
 	
 

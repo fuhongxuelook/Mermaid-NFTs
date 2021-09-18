@@ -40,7 +40,7 @@ func MintNFT(addr string) (interface{}) {
  * 获取当前tokenId
  * 
  */ 
-func GetTokenId() (interface{}) {
+func GetTokenId() (string) {
     
     client, _, _ := getEnv()
 
@@ -54,7 +54,7 @@ func GetTokenId() (interface{}) {
     totalSupply, _ := instance.TotalSupply(&bind.CallOpts{})
 
     
-    return totalSupply
+    return totalSupply.String()
 }
 
 
