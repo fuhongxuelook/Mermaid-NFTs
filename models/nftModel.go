@@ -41,13 +41,38 @@ func GetList(skip int, take int, query string) (list []Nft) {
 	return
 }
 
+
+
+func GetImageByTokenId(tokenId string) (image string) {
+
+    o := orm.NewOrm()
+
+    qb, _ := orm.NewQueryBuilder("mysql")
+
+    qb.Select("image").
+        From("nft").
+        Where("status = 1").
+        And("tokenId='" + tokenId + "'")
+
+    sql := qb.String()
+
+
+    err := o.Raw(sql).QueryRow(&image)
+    if err == nil {
+        fmt.Println("image: ", image)
+    }
+
+
+    return 
+}
+
 func GetListNum(skip int, take int, query string) (num int64) {
 
     o := orm.NewOrm()
 
     qb, _ := orm.NewQueryBuilder("mysql")
 
-    qb.Select("count(id) as num").
+    qb.Select("").
         From("nft").
         Where("status = 1")
 
