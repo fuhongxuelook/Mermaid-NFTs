@@ -20,5 +20,7 @@ func (c *RemoveWMController) Post() {
 		os.Rename(ORIGIN + tokenId, RESOURCE + tokenId)
 	}
 	
+	c.Data["json"] = true
+    c.ServeJSON()
 
 }
