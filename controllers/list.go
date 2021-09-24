@@ -3,14 +3,21 @@ package controllers
 import (
 	Model "MermaidNFT/models"
 	beego "github.com/beego/beego/v2/server/web"
-	service "MermaidNFT/services"
+	_  "MermaidNFT/services"
 )
 
 type ListController struct {
 	beego.Controller
 }
 
-const ONE_PAGE_NUM = 10
+
+type Res struct{
+	List []Model.Nft `json:"list"`
+	Total int64 `json:"total"`
+	CurrentPage int `json:"current_page"`
+}
+
+const ONE_PAGE_NUM = 20
 
 // 127.0.0.1:8080/static/img/resource/26.jpeg
 func (c *ListController) Post() {
@@ -21,21 +28,25 @@ func (c *ListController) Post() {
 
 	res := Model.GetList(start, ONE_PAGE_NUM, query)
 
+	num := Model.GetListNum(start, ONE_PAGE_NUM, query)
 
-	c.Data["json"] = &res
+	r := Res{List: res, Total: num, CurrentPage: page}
+
+	c.Data["json"] = &r
     c.ServeJSON()
 
 }
 
 func (c *ListController) Get() {
-	tokenId := service.GetTokenId()
-	address := c.GetString("address")
-	name := c.GetString("name")
-	image := c.GetString("image")
+	page, _ := c.GetInt("page")
+	query := c.GetString("query")
 
-	Model.InsertNft(address, tokenId, name, image)
+	start := (page - 1) * ONE_PAGE_NUM;
+
+	num := Model.GetListNum(start, ONE_PAGE_NUM, query)
 
 
+	c.Data["json"] = &num
     c.ServeJSON()
 
 }

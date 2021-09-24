@@ -20,7 +20,7 @@ func (c *DealImageController) Post() {
 	address := c.GetString("address")
 	tokenId := service.GetTokenId()
 	//beego.MaxMemory = 1<<22
-	f, h, err := c.GetFile("img")
+	f, h, err := c.GetFile("file")
     if err != nil {
         log.Fatal("getfile err ", err)
     }
@@ -28,7 +28,7 @@ func (c *DealImageController) Post() {
 
     ext := path.Ext(h.Filename);
 
-    c.SaveToFile("img", ORIGIN + tokenId + ext) 
+    c.SaveToFile("file", ORIGIN + tokenId + ext) 
 
     // 安全的文件移动文件
 	service.Copy(ORIGIN + tokenId + ext, RESOURCE + tokenId + ext)

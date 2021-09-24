@@ -24,7 +24,7 @@ func GetList(skip int, take int, query string) (list []Nft) {
 		Where("status = 1")
 
     if query != "" {
-        qb.And("(tokenId=" + query + " or name like '%" + query + "%')") 
+        qb.And("(tokenId='" + query + "' or name like '%" + query + "%')") 
     }
 
 	qb.OrderBy("id").Asc().
@@ -39,6 +39,34 @@ func GetList(skip int, take int, query string) (list []Nft) {
 	}
 
 	return
+}
+
+func GetListNum(skip int, take int, query string) (num int64) {
+
+    o := orm.NewOrm()
+
+    qb, _ := orm.NewQueryBuilder("mysql")
+
+    qb.Select("count(id) as num").
+        From("nft").
+        Where("status = 1")
+
+    if query != "" {
+        qb.And("(tokenId='" + query + "' or name like '%" + query + "%')") 
+    }
+
+   
+
+    sql := qb.String()
+
+
+    err := o.Raw(sql).QueryRow(&num)
+    if err == nil {
+        fmt.Println("user nums: ", num)
+    }
+
+
+    return num
 }
 
 // Address     string `orm:"column(address);description(用户地址)" json:"address"`
