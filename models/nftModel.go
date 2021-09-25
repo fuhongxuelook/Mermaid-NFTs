@@ -72,7 +72,7 @@ func GetListNum(skip int, take int, query string) (num int64) {
 
     qb, _ := orm.NewQueryBuilder("mysql")
 
-    qb.Select("").
+    qb.Select("count(*) as num").
         From("nft").
         Where("status = 1")
 
