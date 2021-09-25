@@ -24,11 +24,13 @@ func (c *ListController) Post() {
 	page, _ := c.GetInt("page")
 	query := c.GetString("query")
 
+	address := c.GetString("address")
+
 	start := (page - 1) * ONE_PAGE_NUM;
 
-	res := Model.GetList(start, ONE_PAGE_NUM, query)
+	res := Model.GetList(start, ONE_PAGE_NUM, query, address)
 
-	num := Model.GetListNum(start, ONE_PAGE_NUM, query)
+	num := Model.GetListNum(start, ONE_PAGE_NUM, query, address)
 
 	r := Res{List: res, Total: num, CurrentPage: page}
 
@@ -40,10 +42,11 @@ func (c *ListController) Post() {
 func (c *ListController) Get() {
 	page, _ := c.GetInt("page")
 	query := c.GetString("query")
+	address := c.GetString("address")
 
 	start := (page - 1) * ONE_PAGE_NUM;
 
-	num := Model.GetListNum(start, ONE_PAGE_NUM, query)
+	num := Model.GetListNum(start, ONE_PAGE_NUM, query, address)
 
 
 	c.Data["json"] = &num

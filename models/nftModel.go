@@ -13,7 +13,7 @@ func (n *Nft) TableName() string {
 
 
 
-func GetList(skip int, take int, query string) (list []Nft) {
+func GetList(skip int, take int, query, address string) (list []Nft) {
 
 	o := orm.NewOrm()
 
@@ -23,9 +23,15 @@ func GetList(skip int, take int, query string) (list []Nft) {
 		From("nft").
 		Where("status = 1")
 
+    if address != "" {
+        qb.And("address = '" + address + "'")
+    }
+
     if query != "" {
         qb.And("(tokenId='" + query + "' or name like '%" + query + "%')") 
     }
+
+
 
 	qb.OrderBy("id").Asc().
     	Limit(take).Offset(skip)
@@ -66,7 +72,7 @@ func GetImageByTokenId(tokenId string) (image string) {
     return 
 }
 
-func GetListNum(skip int, take int, query string) (num int64) {
+func GetListNum(skip int, take int, query, address string) (num int64) {
 
     o := orm.NewOrm()
 
@@ -75,6 +81,10 @@ func GetListNum(skip int, take int, query string) (num int64) {
     qb.Select("count(*) as num").
         From("nft").
         Where("status = 1")
+
+    if address != "" {
+        qb.And("address = '" + address + "'")
+    }
 
     if query != "" {
         qb.And("(tokenId='" + query + "' or name like '%" + query + "%')") 
