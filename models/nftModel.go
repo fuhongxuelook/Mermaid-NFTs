@@ -23,7 +23,7 @@ func GetList(skip int, take int, query, address string) (list []Nft) {
 		From("nft").
 		Where("status = 1")
 
-    if address != "" {
+    if address != "" && address != "0"  {
         qb.And("address = '" + address + "'")
     }
 
@@ -82,7 +82,7 @@ func GetListNum(skip int, take int, query, address string) (num int64) {
         From("nft").
         Where("status = 1")
 
-    if address != "" {
+    if address != "" && address != "0"  {
         qb.And("address = '" + address + "'")
     }
 
