@@ -125,16 +125,29 @@ func InsertNft(address, tokenId, name, image string) {
 
 }
 
-func GetNFTId(address, tokenId, name string ) {
+func GetNFTId() (tokenId string) {
     o := orm.NewOrm()
 
-    nft := new(Nft)
-    nft.Address = address
-    nft.TokenId = tokenId
-    nft.Name = name
-    nft.Status = 1
+    qb, _ := orm.NewQueryBuilder("mysql")
 
-    o.Insert(nft)
+    qb.Select("TokenId").
+        From("nft")
+        //Where("status = 1")
+
+    sql := qb.String()
+
+
+    err := o.Raw(sql).QueryRow(&tokenId)
+    if err == nil {
+        fmt.Println("tokenId is: ", tokenId)
+    }
+
+
+    return tokenId
+    
+}
+
+func ChangeNftTokenIdStatus(tokenId string) {
     
 }
 

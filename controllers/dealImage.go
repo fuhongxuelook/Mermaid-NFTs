@@ -18,7 +18,7 @@ type DealImageController struct {
 func (c *DealImageController) Post() {
 	name := c.GetString("name")
 	address := c.GetString("address")
-	tokenId := service.GetTokenId()
+	tokenId := Model.GetNFTId()
 	//beego.MaxMemory = 1<<22
 	f, h, err := c.GetFile("file")
     if err != nil {

@@ -14,6 +14,7 @@ type User struct {
     CreatedAt   time.Time `orm:"auto_now_add;type(datetime);description(创建时间)" json:"created_at"`
 }
 
+// status 1 加载中,2
 type Nft struct {
     Id          int    `orm:"column(id)" json:"id"`
     Address     string `orm:"column(address);description(用户地址)" json:"address"`
