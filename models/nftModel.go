@@ -150,6 +150,8 @@ func GetNFTId() (string) {
 
     if tokenId == -1 {
         tokenId = 0
+    } else {
+        tokenId += 1
     }
 
 
