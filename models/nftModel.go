@@ -15,6 +15,7 @@ func (n *Nft) TableName() string {
 
 
 func GetList(skip int, take int, query, address string) (list []Nft) {
+    list = []Nft{}
 
 	o := orm.NewOrm()
 
