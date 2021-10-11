@@ -21,7 +21,7 @@ func GetList(skip int, take int, query, address string) (list []Nft) {
 
 	qb.Select("id", "address", "name", "tokenId", "image", "status").
 		From("nft").
-		Where("status = 1")
+		Where("status > 1")
 
     if address != "" && address != "0"  {
         qb.And("address = '" + address + "'")
@@ -57,7 +57,7 @@ func GetImageByTokenId(tokenId string) (image string) {
 
     qb.Select("image").
         From("nft").
-        Where("status = 1").
+        Where("status > 1").
         And("tokenId='" + tokenId + "'")
 
     sql := qb.String()
@@ -80,7 +80,7 @@ func GetListNum(skip int, take int, query, address string) (num int64) {
 
     qb.Select("count(*) as num").
         From("nft").
-        Where("status = 1")
+        Where("status > 1")
 
     if address != "" && address != "0"  {
         qb.And("address = '" + address + "'")

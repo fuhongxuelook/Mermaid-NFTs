@@ -18,3 +18,11 @@ func (c *SetStatusController) Post() {
 	c.Data["json"] = true
     c.ServeJSON()
 }
+
+
+func (c *SetStatusController) Get() {
+	tokenId := Model.GetNFTId()
+
+	c.Data["json"] = tokenId
+    c.ServeJSON()
+}
