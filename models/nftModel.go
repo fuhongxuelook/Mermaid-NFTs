@@ -147,8 +147,17 @@ func GetNFTId() (tokenId string) {
     
 }
 
-func ChangeNftTokenIdStatus(tokenId string) {
-    
+func ChangeNftTokenIdStatus(tokenId, status string) {
+    o := orm.NewOrm()
+
+    res, err := o.Raw("UPDATE nft SET status = ? WHERE tokenId = ?", status, tokenId).Exec()
+    if err == nil {
+        num, _ := res.RowsAffected()
+        fmt.Println("mysql row affected nums: ", num)
+    }
+
+    return
+
 }
 
 

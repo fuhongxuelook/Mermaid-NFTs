@@ -11,6 +11,7 @@ func init() {
 	beego.Router("/list", &controllers.ListController{})
 	beego.Router("/connect", &controllers.ConnectController{})
     beego.Router("/ethe", &controllers.EtheController{})
+    beego.Router("/status", &controllers.SetStatusController{})
     //beego.Router("/ethe", &controllers.EtheController{})
     beego.Router("/", &controllers.MainController{})
 
