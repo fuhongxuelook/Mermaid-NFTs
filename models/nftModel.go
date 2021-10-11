@@ -131,7 +131,10 @@ func GetNFTId() (tokenId string) {
     qb, _ := orm.NewQueryBuilder("mysql")
 
     qb.Select("TokenId").
-        From("nft")
+        From("nft").
+        OrderBy("TokenId").
+        Asc()
+
         //Where("status = 1")
 
     sql := qb.String()
