@@ -136,7 +136,7 @@ func GetNFTId() (string) {
     qb.Select("TokenId").
         From("nft").
         OrderBy("TokenId").
-        Asc()
+        Desc()
 
         //Where("status = 1")
 
