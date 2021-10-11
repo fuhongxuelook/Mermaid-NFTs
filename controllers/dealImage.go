@@ -18,7 +18,7 @@ type DealImageController struct {
 func (c *DealImageController) Post() {
 	name := c.GetString("name")
 	address := c.GetString("address")
-	tokenId := Model.GetNFTId()
+	tokenId := service.GetTokenId()
 	//beego.MaxMemory = 1<<22
 	f, h, err := c.GetFile("file")
     if err != nil {
@@ -37,7 +37,8 @@ func (c *DealImageController) Post() {
 
 	Model.InsertNft(address, tokenId, name, tokenId + ext)
 
-	c.Ctx.Output.Body([]byte(name));
+	c.Data["json"] = tokenId
+    c.ServeJSON()
 }
 
 func (c *DealImageController) Get() {
