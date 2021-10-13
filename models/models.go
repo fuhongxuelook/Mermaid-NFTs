@@ -30,7 +30,7 @@ func init() {
     orm.RegisterDriver("mysql", orm.DRMySQL)
 
     // set default database
-    orm.RegisterDataBase("default", "mysql", "root:@tcp(127.0.0.1:3306)/mermaidnft?charset=utf8")
+    orm.RegisterDataBase("default", "mysql", "nft:veyglR7oONOxsR4z@tcp(cdb-qmt11q3w.bj.tencentcdb.com:10022)/nft?charset=utf8")
 
     orm.Debug = true
     // // // register model

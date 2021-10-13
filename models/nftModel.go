@@ -2,6 +2,7 @@ package Models
 
 import (
 	"fmt"
+    "strconv"
     "github.com/beego/beego/v2/client/orm"
      _ "github.com/jinzhu/gorm/dialects/mysql"
 )
@@ -14,6 +15,7 @@ func (n *Nft) TableName() string {
 
 
 func GetList(skip int, take int, query, address string) (list []Nft) {
+    list = []Nft{}
 
 	o := orm.NewOrm()
 
@@ -125,7 +127,8 @@ func InsertNft(address, tokenId, name, image string) {
 
 }
 
-func GetNFTId() (tokenId string) {
+func GetNFTId() (string) {
+    tokenId := -1
     o := orm.NewOrm()
 
     qb, _ := orm.NewQueryBuilder("mysql")
@@ -133,7 +136,7 @@ func GetNFTId() (tokenId string) {
     qb.Select("TokenId").
         From("nft").
         OrderBy("TokenId").
-        Asc()
+        Desc()
 
         //Where("status = 1")
 
@@ -145,8 +148,14 @@ func GetNFTId() (tokenId string) {
         fmt.Println("tokenId is: ", tokenId)
     }
 
+    if tokenId == -1 {
+        tokenId = 0
+    } else {
+        tokenId += 1
+    }
 
-    return tokenId
+
+    return strconv.Itoa(tokenId)
     
 }
 

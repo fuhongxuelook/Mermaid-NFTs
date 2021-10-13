@@ -37,7 +37,8 @@ func (c *DealImageController) Post() {
 
 	Model.InsertNft(address, tokenId, name, tokenId + ext)
 
-	c.Ctx.Output.Body([]byte(name));
+	c.Data["json"] = tokenId
+    c.ServeJSON()
 }
 
 func (c *DealImageController) Get() {
