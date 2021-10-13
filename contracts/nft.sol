@@ -19,9 +19,13 @@ contract Nft is Ownable, ERC721, INFT {
     function _baseURI() internal view virtual override returns (string memory) {
         return baseUri;
     }
+
+    function setBaseURI(string memory newUri) external {
+        baseUri = newUri;
+    }
     
-    function Mint(address to) public override {
-        _safeMint(to, totalSupply);
+    function Mint(address to, uint256 tokenId) public override {
+        _safeMint(to, tokenId);
         totalSupply += 1;
     }
     
