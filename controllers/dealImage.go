@@ -5,7 +5,7 @@ import (
 	"log"
 	"path"
 	beego "github.com/beego/beego/v2/server/web"
-	service "MermaidNFT/services"
+	//service "MermaidNFT/services"
 	Model "MermaidNFT/models"
 
 )
@@ -28,12 +28,12 @@ func (c *DealImageController) Post() {
 
     ext := path.Ext(h.Filename);
 
-    c.SaveToFile("file", ORIGIN + tokenId + ext) 
+    c.SaveToFile("file", RESOURCE + tokenId + ext) 
 
     // 安全的文件移动文件
-	service.Copy(ORIGIN + tokenId + ext, RESOURCE + tokenId + ext)
+	//service.Copy(ORIGIN + tokenId + ext, RESOURCE + tokenId + ext)
 	
-	service.GenerageWm(tokenId, ext)
+	//service.GenerageWm(tokenId, ext)
 
 	Model.InsertNft(address, tokenId, name, tokenId + ext)
 
