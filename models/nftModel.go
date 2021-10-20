@@ -35,7 +35,7 @@ func GetList(skip int, take int, query, address string) (list []Nft) {
 
 
 
-	qb.OrderBy("id").Asc().
+	qb.OrderBy("id").Desc().
     	Limit(take).Offset(skip)
 
     sql := qb.String()
